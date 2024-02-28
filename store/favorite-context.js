@@ -5,8 +5,8 @@ export const FavoriteContext = createContext({
     addFavorire: id => { },
     removeFavorite: id => { },
     getFavorites: () => { },
-    isFavorite: id => { }
-
+    isFavorite: id => { },
+    deleteListFavorites: () => { }
 })
 
 export default function FavoriteContextProvider({ children }) {
@@ -14,9 +14,16 @@ export default function FavoriteContextProvider({ children }) {
     const FAVORITES_KEY = '@MyFavorites';
 
     useEffect(() => {
-
         getFavorites()
     }, [])
+
+    async function deleteListFavorites() {
+        console.log('before delete: ', getFavorites);
+        await AsyncStorage.removeItem(FAVORITES_KEY)
+        setFavoriteOrchidIds([])
+        console.log('after delete: ', getFavorites);
+
+    }
 
     async function getFavorites() {
         try {
@@ -71,7 +78,8 @@ export default function FavoriteContextProvider({ children }) {
         addFavorire,
         removeFavorite,
         isFavorite,
-        getFavorites
+        getFavorites,
+        deleteListFavorites
     }
     return <FavoriteContext.Provider value={value}>
         {children}
