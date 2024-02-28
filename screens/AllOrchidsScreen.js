@@ -7,7 +7,13 @@ import PickerCategories from '../component/Picker'
 
 export default function AllOrchidsScreen() {
     const [selectedValue, setSelectedValue] = useState('c1');
+    const [isScrollToTop, setIsScrollToTop] = useState(false)
     const list = selectedValue === 'c0' ? ORCHIDS : ORCHIDS.filter(orchid => orchid.categoryId === selectedValue)
+
+    useEffect(() => {
+        console.log('render');
+        setIsScrollToTop(true)
+    }, [selectedValue])
 
     return (
         <>
@@ -16,7 +22,7 @@ export default function AllOrchidsScreen() {
                 <PickerCategories selectedValue={selectedValue} setSelectedValue={setSelectedValue} />
 
                 <View style={styles.listContainer}>
-                    <OrchidsList items={list} />
+                    <OrchidsList items={list} isScrollToTop={isScrollToTop} />
                 </View>
             </View>
 
